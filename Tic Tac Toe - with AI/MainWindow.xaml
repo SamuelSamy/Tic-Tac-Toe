@@ -1,0 +1,245 @@
+﻿<Window x:Class="Tic_Tac_Toe___with_AI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Tic_Tac_Toe___with_AI"
+        mc:Ignorable="d"
+        Title="" Height="420" Width="690" Loaded="Window_Loaded" WindowStartupLocation="CenterScreen" KeyDown="Window_KeyDown">
+    <Window.Background>
+        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="#FF5E0081" Offset="1"/>
+            <GradientStop Color="White"/>
+            <GradientStop Color="#FF965AAD" Offset="0.53"/>
+            <GradientStop Color="#FF9B62B1" Offset="0.337"/>
+        </LinearGradientBrush>
+    </Window.Background>
+    <Grid x:Name="MainGrid" Visibility="Visible">
+
+        <Grid x:Name="StartGame" Visibility="Visible">
+            <Grid.Background>
+                <RadialGradientBrush>
+                    <GradientStop Color="Black" Offset="1"/>
+                    <GradientStop Color="#FF000096" Offset="0.5"/>
+                </RadialGradientBrush>
+            </Grid.Background>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="3*"/>
+                <RowDefinition Height="3*"/>
+            </Grid.RowDefinitions>
+
+
+
+
+            <Viewbox Grid.Row="0">
+                <TextBlock Name="tictactoe" Text="Tic Tac Toe" FontFamily="Monotype Corsiva" RenderTransformOrigin="0.5,0.5" Margin="2,0,0,0" FontWeight="Bold">
+                    <TextBlock.Foreground>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,-0.5">
+                            <GradientStop Color="Black"/>
+                            <GradientStop Color="White" Offset="1"/>
+                        </LinearGradientBrush>
+                    </TextBlock.Foreground>
+                    <TextBlock.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform AngleX="-10" AngleY="-2"/>
+                            <RotateTransform Angle="7"/>
+                            <TranslateTransform X="-1.89837" Y="1.99125"/>
+                        </TransformGroup>
+                    </TextBlock.RenderTransform>
+                </TextBlock>
+            </Viewbox>
+
+
+            <Grid Grid.Row ="1">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height ="1*"/>
+                    <RowDefinition Height ="1*"/>
+                    <RowDefinition Height ="1*"/>
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="2.5*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+
+                <Button x:Name="btnPlayEasy" Content="Easy" Grid.Row ="0" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#FF64FF32" Foreground="#FF320A2C" FontSize="42" FontFamily="Arial Rounded MT Bold" BorderBrush="Yellow" Click="btnPlayEasy_Click" FontWeight="Bold" RenderTransformOrigin="0.5,0.5" Margin="-10,0,10,0" SizeChanged="btnPlayEasy_SizeChanged">
+                    <Button.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform AngleY="2"/>
+                            <RotateTransform Angle="2"/>
+                            <TranslateTransform Y="-6.745"/>
+                        </TransformGroup>
+                    </Button.RenderTransform>
+                    <Button.Effect>
+                        <DropShadowEffect/>
+                    </Button.Effect>
+                </Button>
+
+
+
+
+
+                <Button x:Name="btnPlayHard" Grid.Row="1" Grid.Column="1" Content="Hard" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#FF006EFF" Foreground="#FF320A2C" FontSize="48" FontFamily="Arial Rounded MT Bold" BorderBrush="LightGreen" Click="btnPlayHard_Click" FontWeight="Bold" RenderTransformOrigin="0.5,0.5" Margin="15,0,-20,0" SizeChanged="btnPlayHard_SizeChanged">
+                    <Button.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform AngleY="-2.227"/>
+                            <RotateTransform Angle="1"/>
+                            <TranslateTransform Y="-8.205"/>
+                        </TransformGroup>
+                    </Button.RenderTransform>
+                    <Button.Effect>
+                        <DropShadowEffect/>
+                    </Button.Effect>
+                </Button>
+
+
+                <Button x:Name="btnPlayImpossible" Grid.Row="2" Grid.Column="1" Content="Impossible" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Red" Foreground="#FF320A2C" FontSize="48" FontFamily="Arial Rounded MT Bold" FontWeight="Bold" FontStyle="Normal" BorderBrush="Red" Click="btnPlayImpossible_Click" RenderTransformOrigin="0.5,0.5" Margin="-10,0,-5,0" SizeChanged="btnPlayImpossible_SizeChanged">
+                    <Button.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform AngleY="1.98"/>
+                            <RotateTransform/>
+                            <TranslateTransform Y="-9.179"/>
+                        </TransformGroup>
+                    </Button.RenderTransform>
+                    <Button.Effect>
+                        <DropShadowEffect/>
+                    </Button.Effect>
+                </Button>
+
+            </Grid>
+
+
+        </Grid>
+
+        <Grid Name="GameGrid" Visibility="Hidden" OpacityMask="#FFEA0B0B" Grid.Row="1" Grid.Column="1">
+            <Grid.Background>
+                <RadialGradientBrush>
+                    <GradientStop Color="Blue" Offset="0"/>
+                    <GradientStop Color="Black" Offset="0.997"/>
+                </RadialGradientBrush>
+            </Grid.Background>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width=".5*" />
+                <ColumnDefinition Width="3*" />
+                <ColumnDefinition Width=".5*" />
+            </Grid.ColumnDefinitions>
+
+
+            <Grid x:Name="Squares" Grid.Column ="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+
+                <Label x:Name="lb00" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" BorderBrush="#FFFFED00" Background="#FF326496" Margin="15,10,15,10" MouseDown="lb_MouseDown">
+                    <Label.Effect>
+                        <DropShadowEffect/>
+                    </Label.Effect>
+                </Label>
+
+                <Viewbox Grid.Row="0" Grid.Column="0" Margin= "15, 10, 15, 10">
+                    <TextBlock Name="tb00" Text= "" Foreground="Red" FontFamily="Brush Script MT" FontWeight="Bold"/>
+                </Viewbox>
+
+                <Label x:Name="lb01" Grid.Column="1" Grid.Row="0" Content="" MouseDown="lb_MouseDown" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="Red" FontFamily="Modern No. 20" FontWeight="Bold" FontSize="72" BorderBrush="#FFFFED00" Background="#FF326496" AutomationProperties.IsRowHeader="True" Margin="15,10,15,10">
+                    <Label.Effect>
+                        <DropShadowEffect/>
+                    </Label.Effect>
+                </Label>
+
+
+                <Viewbox Grid.Row="0" Grid.Column="1" Margin="15,10,15,10">
+                    <TextBlock Name="tb01" Text="" Foreground="Red" FontFamily="Brush Script MT" FontWeight="Bold"/>
+                </Viewbox>
+
+                <Label x:Name="lb02" Grid.Column="2" Grid.Row="0" Content="" MouseDown="lb_MouseDown" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="Red" FontFamily="Modern No. 20" FontWeight="Bold" FontSize="72" BorderBrush="#FFFFED00" Background="#FF326496" Margin="15,10,15,10">
+                    <Label.Effect>
+                        <DropShadowEffect/>
+                    </Label.Effect>
+                </Label>
+
+                <Viewbox Grid.Row="0" Grid.Column="2" Margin="15,10,15,10">
+                    <TextBlock Name="tb02" Text="" Foreground="Red" FontFamily="Brush Script MT" FontWeight="Bold"/>
+                </Viewbox>
+
+                <Label x:Name="lb10" Grid.Column="0" Grid.Row="1" Content="" MouseDown="lb_MouseDown" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="Red" FontFamily="Modern No. 20" FontWeight="Bold" FontSize="72" BorderBrush="#FFFFED00" Background="#FF326496" Margin="15,10,15,10">
+                    <Label.Effect>
+                        <DropShadowEffect/>
+                    </Label.Effect>
+                </Label>
+
+                <Viewbox Grid.Row="1" Grid.Column="0" Margin="15,10,15,10">
+                    <TextBlock Name="tb10" Text="" Foreground="Red" FontFamily="Brush Script MT" FontWeight="Bold"/>
+                </Viewbox>
+
+                <Label x:Name="lb11" Grid.Column="1" Grid.Row="1" Content="" MouseDown="lb_MouseDown"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="Red" FontFamily="Modern No. 20" FontWeight="Bold" FontSize="72" BorderBrush="#FFFFED00" Background="#FF326496" Margin="15,10,15,10">
+                    <Label.Effect>
+                        <DropShadowEffect/>
+                    </Label.Effect>
+                </Label>
+
+                <Viewbox Grid.Row="1" Grid.Column="1" Margin="15,10,15,10">
+                    <TextBlock Name="tb11" Text="" Foreground="Red" FontFamily="Brush Script MT" FontWeight="Bold"/>
+                </Viewbox>
+
+                <Label x:Name="lb12" Grid.Column="2" Grid.Row="1" Content="" MouseDown="lb_MouseDown" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="Red" FontFamily="Modern No. 20" FontWeight="Bold" FontSize="72" BorderBrush="#FFFFED00" Background="#FF326496" Margin="15,10,15,10">
+                    <Label.Effect>
+                        <DropShadowEffect/>
+                    </Label.Effect>
+                </Label>
+
+                <Viewbox Grid.Row="1" Grid.Column="2" Margin="15,10,15,10">
+                    <TextBlock Name="tb12" Text="" Foreground="Red" FontFamily="Brush Script MT" FontWeight="Bold"/>
+                </Viewbox>
+
+                <Label x:Name="lb20" Grid.Column="0" Grid.Row="2" Content="" MouseDown="lb_MouseDown" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="Red" FontFamily="Modern No. 20" FontWeight="Bold" FontSize="72" BorderBrush="#FFFFED00" Background="#FF326496" Margin="15,10,15,10">
+                    <Label.Effect>
+                        <DropShadowEffect/>
+                    </Label.Effect>
+                </Label>
+
+                <Viewbox Grid.Row="2" Grid.Column="0" Margin="15,10,15,10">
+                    <TextBlock Name="tb20" Text="" Foreground="Red" FontFamily="Brush Script MT" FontWeight="Bold"/>
+                </Viewbox>
+
+                <Label x:Name="lb21" Grid.Column="1" Grid.Row="2" Content="" MouseDown="lb_MouseDown" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="Red" FontFamily="Modern No. 20" FontWeight="Bold" FontSize="72" BorderBrush="#FFFFED00" Background="#FF326496" Margin="15,10,15,10">
+                    <Label.Effect>
+                        <DropShadowEffect/>
+                    </Label.Effect>
+                </Label>
+
+                <Viewbox Grid.Row="2" Grid.Column="1" Margin="15,10,15,10">
+                    <TextBlock Name="tb21" Text="" Foreground="Red" FontFamily="Brush Script MT" FontWeight="Bold"/>
+                </Viewbox>
+
+                <Label x:Name="lb22" Grid.Column="2" Grid.Row="2" Content="" MouseDown="lb_MouseDown" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="Red" FontFamily="Modern No. 20" FontWeight="Bold" FontSize="72" BorderBrush="#FFFFED00" Background="#FF326496" Margin="15,10,15,10">
+                    <Label.Effect>
+                        <DropShadowEffect/>
+                    </Label.Effect>
+                </Label>
+
+                <Viewbox Grid.Row="2" Grid.Column="2" Margin="15,10,15,10">
+                    <TextBlock Name="tb22" Text="" Foreground="Red" FontFamily="Brush Script MT" FontWeight="Bold"/>
+                </Viewbox>
+            </Grid>
+
+        </Grid>
+    </Grid>
+
+
+</Window>

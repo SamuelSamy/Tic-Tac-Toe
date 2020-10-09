@@ -1,0 +1,21 @@
+D:\c#\Tic Tac Toe - with AI\Tic Tac Toe - with AI\bin\Debug\netcoreapp3.1\Tic Tac Toe - with AI.exe
+D:\c#\Tic Tac Toe - with AI\Tic Tac Toe - with AI\bin\Debug\netcoreapp3.1\Tic Tac Toe - with AI.deps.json
+D:\c#\Tic Tac Toe - with AI\Tic Tac Toe - with AI\bin\Debug\netcoreapp3.1\Tic Tac Toe - with AI.runtimeconfig.json
+D:\c#\Tic Tac Toe - with AI\Tic Tac Toe - with AI\bin\Debug\netcoreapp3.1\Tic Tac Toe - with AI.runtimeconfig.dev.json
+D:\c#\Tic Tac Toe - with AI\Tic Tac Toe - with AI\bin\Debug\netcoreapp3.1\Tic Tac Toe - with AI.dll
+D:\c#\Tic Tac Toe - with AI\Tic Tac Toe - with AI\bin\Debug\netcoreapp3.1\Tic Tac Toe - with AI.pdb
+D:\c#\Tic Tac Toe - with AI\Tic Tac Toe - with AI\obj\Debug\netcoreapp3.1\Tic Tac Toe - with AI.csprojAssemblyReference.cache
+D:\c#\Tic Tac Toe - with AI\Tic Tac Toe - with AI\obj\Debug\netcoreapp3.1\MainWindow.g.cs
+D:\c#\Tic Tac Toe - with AI\Tic Tac Toe - with AI\obj\Debug\netcoreapp3.1\App.g.cs
+D:\c#\Tic Tac Toe - with AI\Tic Tac Toe - with AI\obj\Debug\netcoreapp3.1\Tic Tac Toe - with AI_MarkupCompile.cache
+D:\c#\Tic Tac Toe - with AI\Tic Tac Toe - with AI\obj\Debug\netcoreapp3.1\Tic Tac Toe - with AI_MarkupCompile.lref
+D:\c#\Tic Tac Toe - with AI\Tic Tac Toe - with AI\obj\Debug\netcoreapp3.1\MainWindow.baml
+D:\c#\Tic Tac Toe - with AI\Tic Tac Toe - with AI\obj\Debug\netcoreapp3.1\Tic Tac Toe - with AI.g.resources
+D:\c#\Tic Tac Toe - with AI\Tic Tac Toe - with AI\obj\Debug\netcoreapp3.1\Tic Tac Toe - with AI.AssemblyInfoInputs.cache
+D:\c#\Tic Tac Toe - with AI\Tic Tac Toe - with AI\obj\Debug\netcoreapp3.1\Tic Tac Toe - with AI.AssemblyInfo.cs
+D:\c#\Tic Tac Toe - with AI\Tic Tac Toe - with AI\obj\Debug\netcoreapp3.1\Tic Tac Toe - with AI.csproj.CoreCompileInputs.cache
+D:\c#\Tic Tac Toe - with AI\Tic Tac Toe - with AI\obj\Debug\netcoreapp3.1\Tic Tac Toe - with AI.dll
+D:\c#\Tic Tac Toe - with AI\Tic Tac Toe - with AI\obj\Debug\netcoreapp3.1\Tic Tac Toe - with AI.pdb
+D:\c#\Tic Tac Toe - with AI\Tic Tac Toe - with AI\obj\Debug\netcoreapp3.1\Tic Tac Toe - with AI.genruntimeconfig.cache
+D:\c#\Tic Tac Toe - with AI\Tic Tac Toe - with AI\obj\Debug\netcoreapp3.1\CustomMessageBox.g.cs
+D:\c#\Tic Tac Toe - with AI\Tic Tac Toe - with AI\obj\Debug\netcoreapp3.1\CustomMessageBox.baml

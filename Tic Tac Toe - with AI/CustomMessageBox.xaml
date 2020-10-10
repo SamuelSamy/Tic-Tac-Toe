@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Tic_Tac_Toe___with_AI"
         mc:Ignorable="d"
-        Title="CustomMessageBox" Background ="{x:Null}" Width="800" Height="396" AllowsTransparency="True" WindowStyle="None" Visibility="Visible" Opacity="0.75" WindowStartupLocation="CenterOwner" Loaded="Window_Loaded" ResizeMode="NoResize" ShowInTaskbar="False" WindowState="Normal" VerticalAlignment="Center" HorizontalAlignment="Center">
+        Title="CustomMessageBox" Background ="{x:Null}" Width="800" Height="396" Visibility="Visible" Opacity="0" WindowStartupLocation="CenterOwner" Loaded="Window_Loaded" ResizeMode="NoResize" ShowInTaskbar="False" WindowState="Normal" VerticalAlignment="Center" HorizontalAlignment="Center" AllowsTransparency="True" WindowStyle="None">
     <Grid x:Name="MainGrid">
         <Border x:Name="Border" Background="#FFFF6464" CornerRadius="100" />
 

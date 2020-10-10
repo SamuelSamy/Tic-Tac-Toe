@@ -7,6 +7,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
@@ -17,6 +18,7 @@ namespace Tic_Tac_Toe___with_AI
     /// </summary>
     public partial class CustomMessageBox : Window
     {
+        #region Vars
 
         public Color red = Color.FromRgb(255, 100, 100);
         public Color green = Color.FromRgb(100, 255, 100);
@@ -25,6 +27,7 @@ namespace Tic_Tac_Toe___with_AI
         public string message = "";
         public SolidColorBrush color = new SolidColorBrush();
 
+        #endregion
 
         public CustomMessageBox(string stage) // stage -> win (green), lose (red), tie (yellow) 
         {
@@ -46,20 +49,25 @@ namespace Tic_Tac_Toe___with_AI
             }
             InitializeComponent();
         }
+
+        #region SelectAnswer
+
         private void btnYes_Click(object sender, RoutedEventArgs e)
         {
             this.DialogResult = true;
-            Close();
+            this.Close();
         }
 
         private void btnNo_Click(object sender, RoutedEventArgs e)
         {
             this.DialogResult = false;
-            Close();
+            this.Close();
         }
 
+        #endregion
+
         private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
+        { 
             Border.Background = color;
             TextBlock.Text = message;
 
@@ -78,8 +86,15 @@ namespace Tic_Tac_Toe___with_AI
                 this.Top = Owner.Top + (Owner.ActualHeight - this.ActualHeight) / 2;
             }
 
-            
+            DoubleAnimation anim = new DoubleAnimation();
+            anim.From = 0;
+            anim.To = 0.75;
+            anim.Duration = (Duration)TimeSpan.FromSeconds(.3);
+
+            this.BeginAnimation(UIElement.OpacityProperty, anim);            
         }
+
+        #region ResizeFunctions
 
         private void btnYes_SizeChanged(object sender, SizeChangedEventArgs e)
         {
@@ -119,5 +134,7 @@ namespace Tic_Tac_Toe___with_AI
                 TextBlock.FontSize *= l;
             }
         }
+
+        #endregion
     }
 }

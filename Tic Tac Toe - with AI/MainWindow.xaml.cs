@@ -10,6 +10,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
@@ -23,27 +24,24 @@ namespace Tic_Tac_Toe___with_AI
     /// </summary>
     public partial class MainWindow : Window
     {
-        public DispatcherTimer tmrTick;
-        public MainWindow()
-        {
-            InitializeComponent();
+        #region Vars
 
-            tmrTick = new DispatcherTimer();
-            tmrTick.Interval = TimeSpan.FromSeconds(0.25);
-            tmrTick.Tick += tmrTick_Tick;
-        }
+        public DispatcherTimer tmrTick, tmrMove;
+        public DispatcherTimer tmrEMove;
 
         BlurEffect b = new BlurEffect();
 
         public string difficulty = "";
 
-        public const int inf = (1 << 20), aiWinScore = 100, tieScore = 0;
+        public const int inf = (1 << 20), aiWinScore = 100, tieScore = 0, minIntTime = 100, maxIntTime = 250;
         public const double firstRate = 60;
 
         public char human = 'X', ai = 'O', tie = '-', spatiu = ' ';
 
         public char toFill = ' ';
-       
+
+        int bi = -1, bj = -1;
+
         public List<string> movesLeft = new List<string>();
 
         Dictionary<char, int> scores = new Dictionary<char, int>();
@@ -54,6 +52,26 @@ namespace Tic_Tac_Toe___with_AI
         public int nextI, nextJ;
 
         public bool timerIsOn = false;
+
+        #endregion 
+        public MainWindow()
+        {
+            InitializeComponent();
+
+            tmrTick = new DispatcherTimer();
+            tmrTick.Interval = TimeSpan.FromSeconds(0.25);
+            tmrTick.Tick += tmrTick_Tick;
+
+            tmrMove = new DispatcherTimer();
+            tmrMove.Interval = TimeSpan.FromSeconds(.75);
+            tmrMove.Tick += tmrMove_Tick;
+
+            tmrEMove = new DispatcherTimer();
+            tmrEMove.Interval = TimeSpan.FromSeconds(.75);
+            tmrEMove.Tick += tmrEMove_Tick;
+        }
+
+        #region TimeFunctions
 
         private void tmrTick_Tick(object sender, EventArgs e)
         {
@@ -68,27 +86,12 @@ namespace Tic_Tac_Toe___with_AI
                 else
                     s = "win";
 
-                CustomMessageBox cmb = new CustomMessageBox(s);
-                cmb.Owner = this;
+                ShowMessage(s);
 
-                b.Radius = 20;
-                this.Effect = b;
-
-                if (cmb.ShowDialog() == true)
-                {     
-                    InitializeGame();           
-                }
-                else
-                {
-                    GameGrid.Visibility = Visibility.Hidden;
-                    StartGame.Visibility = Visibility.Visible;
-                }
-
-                b.Radius = 0;
                 return;
-            }    
+            }
 
-            (GameGrid.FindName("tb" + nextI.ToString() + nextJ.ToString()) as TextBlock).Text = toFill.ToString();
+           (GameGrid.FindName("tb" + nextI.ToString() + nextJ.ToString()) as TextBlock).Text = toFill.ToString();
 
             if (toFill == ai)
             {
@@ -98,16 +101,78 @@ namespace Tic_Tac_Toe___with_AI
             {
                 (GameGrid.FindName("tb" + nextI.ToString() + nextJ.ToString()) as TextBlock).Foreground = Brushes.Green;
             }
-            
+
 
             nextJ++;
-            
+
             if (nextJ == 3)
             {
                 nextJ = 0;
                 nextI++;
-            } 
+            }
         }
+
+        private void tmrEMove_Tick(object sender, EventArgs e)
+        {
+            tmrEMove.Stop();
+
+            Random rnd = new Random();
+
+            int moveIndex = rnd.Next(0, movesLeft.Count);
+
+            if (movesLeft.Count == 0)
+                return;
+
+            int movei = int.Parse((movesLeft[moveIndex][0]).ToString());
+            int movej = int.Parse((movesLeft[moveIndex][1]).ToString());
+
+            board[movei, movej] = ai;
+
+            movesLeft.RemoveAt(moveIndex);
+
+            (GameGrid.FindName("tb" + movei.ToString() + movej.ToString()) as TextBlock).Text = ai.ToString();
+            (GameGrid.FindName("tb" + movei.ToString() + movej.ToString()) as TextBlock).Foreground = Brushes.Red;
+
+            int c = check();
+
+            if (c == aiWinScore)
+            {
+                ShowMessage("lose");
+            }
+            else if (NoMovesLeft())
+            {
+                ShowMessage("tie");
+            }
+
+            playerTurn = true;
+        }
+
+        private void tmrMove_Tick(object sender, EventArgs e)
+        {
+            tmrMove.Stop();
+
+            board[bi, bj] = ai;
+            (GameGrid.FindName("tb" + bi.ToString() + bj.ToString()) as TextBlock).Text = ai.ToString();
+            (GameGrid.FindName("tb" + bi.ToString() + bj.ToString()) as TextBlock).Foreground = Brushes.Red;
+
+            int c = check();
+
+            if (c == aiWinScore)
+            {
+                ShowMessage("lose");
+            }
+            else if (NoMovesLeft())
+            {
+                ShowMessage("tie");
+            }
+
+            playerTurn = true;
+
+
+        }
+
+        #endregion
+
         public int check()
         {
             for (int i = 0; i < 3; i++)
@@ -144,6 +209,8 @@ namespace Tic_Tac_Toe___with_AI
 
             return 0;
         }
+
+        #region AIFunctions
 
         public bool NoMovesLeft()
         {
@@ -229,7 +296,7 @@ namespace Tic_Tac_Toe___with_AI
         public void findBestMove()
         {
             int best = -inf;
-            int bi = -1, bj = -1;
+            
 
             for (int i = 0; i < 3; i++)
             {
@@ -253,56 +320,16 @@ namespace Tic_Tac_Toe___with_AI
                 }
             }
 
-            board[bi, bj] = ai;
-            (GameGrid.FindName("tb" + bi.ToString() + bj.ToString()) as TextBlock).Text = ai.ToString();
-            (GameGrid.FindName("tb" + bi.ToString() + bj.ToString()) as TextBlock).Foreground = Brushes.Red;
+            Random r = new Random();
 
-            int c = check();
+            tmrMove.Interval = TimeSpan.FromMilliseconds(r.Next(minIntTime, maxIntTime));
+            tmrMove.Start();
 
-            if (c == aiWinScore)
-            {
-                CustomMessageBox cmb = new CustomMessageBox("lose");
-                cmb.Owner = this;
-
-                b.Radius = 20;
-                this.Effect = b;
-
-                if (cmb.ShowDialog() == true)
-                {
-                    InitializeGame();
-                }
-                else
-                {
-                    GameGrid.Visibility = Visibility.Hidden;
-                    StartGame.Visibility = Visibility.Visible;
-                }
-
-                b.Radius = 0;
-            }
-            else if (NoMovesLeft())
-            {
-                CustomMessageBox cmb = new CustomMessageBox("tie");
-                cmb.Owner = this;
-
-                b.Radius = 20;
-                this.Effect = b;
-
-                if (cmb.ShowDialog() == true)
-                {
-                    InitializeGame();
-                }
-                else
-                {
-                    GameGrid.Visibility = Visibility.Hidden;
-                    StartGame.Visibility = Visibility.Visible;
-                }
-
-                b.Radius = 0;   
-            }
-
-            playerTurn = true;
         }
 
+        #endregion
+
+        #region ResizeFunctions
         private void btnPlayEasy_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             Size n = e.NewSize;
@@ -342,6 +369,9 @@ namespace Tic_Tac_Toe___with_AI
             }
         }
 
+        #endregion
+
+        #region SecretFucntion
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.End && GameGrid.Visibility == Visibility.Visible && !timerIsOn)
@@ -352,6 +382,7 @@ namespace Tic_Tac_Toe___with_AI
             }
         }
 
+        #endregion
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             scores.Add(ai, aiWinScore);
@@ -413,6 +444,7 @@ namespace Tic_Tac_Toe___with_AI
             timerIsOn = false;
         }
 
+        #region selectGameFunctions
         private void btnPlayEasy_Click(object sender, RoutedEventArgs e)
         {
             ///Easy - Selects random a valid position
@@ -449,6 +481,7 @@ namespace Tic_Tac_Toe___with_AI
             InitializeGame();
         }
 
+        #endregion
 
         private void lb_MouseDown(object sender, MouseButtonEventArgs e)
         {
@@ -477,43 +510,11 @@ namespace Tic_Tac_Toe___with_AI
 
                     if (c == -aiWinScore)
                     {
-                        CustomMessageBox cmb = new CustomMessageBox("win");
-                        cmb.Owner = this;
-
-                        b.Radius = 20;
-                        this.Effect = b;
-
-                        if (cmb.ShowDialog() == true)
-                        {
-                            InitializeGame();
-                        }
-                        else
-                        {
-                            GameGrid.Visibility = Visibility.Hidden;
-                            StartGame.Visibility = Visibility.Visible;
-                        }
-
-                        b.Radius = 0;
+                        ShowMessage("win");
                     }
                     else if (NoMovesLeft())
                     {
-                        CustomMessageBox cmb = new CustomMessageBox("tie");
-                        cmb.Owner = this;
-
-                        b.Radius = 20;
-                        this.Effect = b;
-
-                        if (cmb.ShowDialog() == true)
-                        {
-                            InitializeGame();
-                        }
-                        else
-                        {
-                            GameGrid.Visibility = Visibility.Hidden;
-                            StartGame.Visibility = Visibility.Visible;
-                        }
-
-                        b.Radius = 0;
+                        ShowMessage("tie");
                     }
                     else
                     {
@@ -538,107 +539,18 @@ namespace Tic_Tac_Toe___with_AI
 
                     if (c == -aiWinScore)
                     {
-                        CustomMessageBox cmb = new CustomMessageBox("win");
-                        cmb.Owner = this;
-
-                        b.Radius = 20;
-                        this.Effect = b;
-
-                        if (cmb.ShowDialog() == true)
-                        {
-                            InitializeGame();
-                        }
-                        else
-                        {
-                            GameGrid.Visibility = Visibility.Hidden;
-                            StartGame.Visibility = Visibility.Visible;
-                        }
-
-                        b.Radius = 0;
+                        ShowMessage("win");
                     }
                     else if (NoMovesLeft())
                     {
-                        CustomMessageBox cmb = new CustomMessageBox("tie");
-                        cmb.Owner = this;
-
-                        b.Radius = 20;
-                        this.Effect = b;
-
-                        if (cmb.ShowDialog() == true)
-                        {
-                            InitializeGame();
-                        }
-                        else
-                        {
-                            GameGrid.Visibility = Visibility.Hidden;
-                            StartGame.Visibility = Visibility.Visible;
-                        }
-
-                        b.Radius = 0;
+                        ShowMessage("tie");
                     }
                     else
                     {
-                        Random rnd = new Random();
+                        Random r = new Random();
 
-                        int moveIndex = rnd.Next(0, movesLeft.Count);
-
-                        if (movesLeft.Count == 0)
-                            return;
-
-                        int movei = int.Parse((movesLeft[moveIndex][0]).ToString());
-                        int movej = int.Parse((movesLeft[moveIndex][1]).ToString());
-
-                        board[movei, movej] = ai;
-
-                        movesLeft.RemoveAt(moveIndex);
-
-                        (GameGrid.FindName("tb" + movei.ToString() + movej.ToString()) as TextBlock).Text = ai.ToString();
-                        (GameGrid.FindName("tb" + movei.ToString() + movej.ToString()) as TextBlock).Foreground = Brushes.Red;
-
-                        c = check();
-
-                        if (c == aiWinScore)
-                        {
-                            CustomMessageBox cmb = new CustomMessageBox("lose");
-                            cmb.Owner = this;
-
-                            b.Radius = 20;
-                            this.Effect = b;
-
-                            if (cmb.ShowDialog() == true)
-                            {
-                                InitializeGame();
-                            }
-                            else
-                            {
-                                GameGrid.Visibility = Visibility.Hidden;
-                                StartGame.Visibility = Visibility.Visible;
-                            }
-
-                            b.Radius = 0;
-                        }
-                        else if (NoMovesLeft())
-                        {
-                            CustomMessageBox cmb = new CustomMessageBox("tie");
-                            cmb.Owner = this;
-
-                            b.Radius = 20;
-                            this.Effect = b;
-
-                            if (cmb.ShowDialog() == true)
-                            {
-                                InitializeGame();
-                            }
-                            else
-                            {
-                                GameGrid.Visibility = Visibility.Hidden;
-                                StartGame.Visibility = Visibility.Visible;
-                            }
-
-                            b.Radius = 0;
-                        }
-
-                        playerTurn = true;
+                        tmrEMove.Interval = TimeSpan.FromMilliseconds(r.Next(minIntTime, maxIntTime));
+                        tmrEMove.Start();
                     }
                 }
             }
@@ -667,6 +579,39 @@ namespace Tic_Tac_Toe___with_AI
 
 
 
+
+        } 
+
+
+        public void ShowMessage(string s)
+        {
+            CustomMessageBox cmb = new CustomMessageBox(s);
+            cmb.Owner = this;
+
+            this.Effect = b;
+
+            DoubleAnimation anim = new DoubleAnimation();
+            anim.From = 0;
+            anim.To = 20;
+            anim.Duration = (Duration)TimeSpan.FromSeconds(.3);
+
+            b.BeginAnimation(BlurEffect.RadiusProperty, anim);
+
+            if (cmb.ShowDialog() == true)
+            {
+                InitializeGame();
+                
+            }
+            else
+            {
+                anim.Duration = (Duration)TimeSpan.FromSeconds(0.5);
+                GameGrid.Visibility = Visibility.Hidden;
+                StartGame.Visibility = Visibility.Visible;
+            }
+
+            anim.From = 20;
+            anim.To = 0;
+            b.BeginAnimation(BlurEffect.RadiusProperty, anim);
         }
     }
 }

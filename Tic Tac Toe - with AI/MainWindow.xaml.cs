@@ -33,7 +33,7 @@ namespace Tic_Tac_Toe___with_AI
 
         public string difficulty = "";
 
-        public const int inf = (1 << 20), aiWinScore = 100, tieScore = 0, minIntTime = 100, maxIntTime = 250;
+        public const int inf = (1 << 20), aiWinScore = 100, tieScore = 0, minIntTime = 0, maxIntTime = 10;
         public const double firstRate = 60;
 
         public char human = 'X', ai = 'O', tie = '-', spatiu = ' ';
@@ -604,7 +604,7 @@ namespace Tic_Tac_Toe___with_AI
             }
             else
             {
-                anim.Duration = (Duration)TimeSpan.FromSeconds(0.5);
+                anim.Duration = (Duration)TimeSpan.FromSeconds(0.15);
                 GameGrid.Visibility = Visibility.Hidden;
                 StartGame.Visibility = Visibility.Visible;
             }
